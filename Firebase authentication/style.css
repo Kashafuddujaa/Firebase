@@ -1,0 +1,37 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    background-color: #d9e3f7d3;
+}
+.header{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #d9e3f7d3 ;
+}
+.left{
+   
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    border: 2px white;
+    border-radius: 12px;
+    width: 350px;
+    height: 430px;
+    text-align: center;
+    background-color: rgb(77, 78, 81);
+   
+}
+.input{
+    
+    padding: 9px 30px;
+    margin: 20px 0;
+    border: 2px;
+    border-color: #b2c7f4;
+    border-radius: 5px;
+    font-size: 12pt;
+    background-color: white;
+    color: #b2c7f4;
+    
+}
+
