@@ -10,25 +10,29 @@
 <body>
     <h1 class="header">Firebase Authentication</h1>
     <div id="login-box" class="left">
-        <h1>Signup</h1>
-        <input type="text" id="username" class="input" name="username" placeholder="Enter Username">
-        <input type="text" id="email" name="email" class="input" placeholder="Enter Your Email">
-        <input type="password" id="password" name="password" class="input" placeholder="Enter Your Password">
-        <input type="submit" value="signup" id="SignUp" class="input" name="signup-submit">
+      <label for="fname" class="label"> Username:</label><br>
+      <input type="text" id="username" name="username" class="input" placeholder="Enter Username"><br>
+      <label for="fname" class="label"> Email:</label><br>
+        <input type="text" id="email" name="email" class="input" placeholder="Enter Your Email"><br>
+        <label for="fname" class="label"> Password:</label><br>
+        <input type="password" id="password" name="password" class="input" placeholder="Enter Your Password"><br>
+        <input type="submit" value="Login" id="Login" class="btn" name="Login"><br><br>
+        <input type="submit" value="SignUp" id="SignUp" class="btn" name="SignUp"><br>
+
     </div>
+
+
+  
    
     
-    <!-- <script src="./assist/apps.js"></script> -->
+    
 </body>
 <script type="module">
      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
-     import  { getDatabase  } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
-     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+     import  { getDatabase , set , ref , update} from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
+     import { getAuth, createUserWithEmailAndPassword ,  signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
+// Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyB_hAug5IFtgN-OYaxGDjUp8ZmgfXSVAw4",
     authDomain: "authentication-1416.firebaseapp.com",
@@ -43,27 +47,48 @@
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const auth = getAuth();
-  signup.addEventListener('click',(e) => {
+  SignUp.addEventListener('click',(e) => {
    var email = document.getElementById("email").value;
    var password = document.getElementById("password").value;
    var username = document.getElementById("username").value;
 
-
-
-    createUserWithEmailAndPassword(auth, email, password)
+createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    alert("user created");
-    // ...
+    set(ref(database , 'users/' + user.uid), {
+        username : username,
+        email : email,
+       password : password,
+    })
+    alert('user created');
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    alert("errorMessage");
-    // ..
+    alert(errorMessage);
   });
+  })
 
+  Login.addEventListener('click' , (e) =>{
+    var email = document.getElementById("email").value;
+   var password = document.getElementById("password").value;
+    signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    const dt = new Date();
+    update(ref(database , 'users/' + user.uid),{
+      last_Login: dt,
+    })
+    alert('user Logged in')
+      
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert(errorMessage);
+  });
   })
 </script>
 
